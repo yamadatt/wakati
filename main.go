@@ -3,7 +3,7 @@ package main
 import (
     "encoding/json"
     "fmt"
-    "io"
+    "io/ioutil"
     "net/http"
 )
 
@@ -41,7 +41,7 @@ func main() {
     fmt.Printf("%-v", resp)
 
     // Response Body を読み取り
-    body, _ := io.ReadAll(resp.Body)
+    body, _ := ioutil.ReadAll(resp.Body)
 
     // JSONを構造体にエンコード
     var Books TokenizedMessages
