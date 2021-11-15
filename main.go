@@ -5,6 +5,7 @@ import (
     "fmt"
     "io/ioutil"
     "net/http"
+    "bytes"
 )
 
 
@@ -12,12 +13,19 @@ func main() {
     fmt.Println("Start!")
 
     url := "http://localhost:8888/tokenize"
-    authHeaderName := "x-cdata-authtoken"
-    authHeaderValue := "7y3E6q4b6V1v9f0D2m9j"
+ 
 
-    req, _ := http.NewRequest(http.MethodGet, url, nil)
-    req.Header.Set(authHeaderName, authHeaderValue)
+    reqBody := RequestBody{
+        Sentence:"すもももももももものうち", 
+        Mode:"normal",
+    }
 
+    jsonValue, _ := json.Marshal(reqBody)
+
+  
+    req, _ := http.NewRequest(http.MethodPost, url, bytes.NewBuffer([]byte(jsonValue)))
+    req.Header.Set("Content-type","application/json;charset=UTF-8")
+ 
     client := new(http.Client)
     resp, err := client.Do(req)
 
@@ -67,4 +75,9 @@ type TokenizedMessages struct {
 		Pronunciation string   `json:"pronunciation"`
 		Features      []string `json:"features"`
 	} `json:"tokens"`
+}
+type RequestBody struct {
+    Sentence string `json:"sentence"`
+    Mode string `json:"mode"`
+
 }
