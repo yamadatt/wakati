@@ -14,12 +14,13 @@ func main() {
 
     url := "http://localhost:8888/tokenize"
  
-
+    // 固定の文字列を入れる（動く用に）
     reqBody := RequestBody{
-        Sentence:"すもももももももものうち", 
+        Sentence:"すもももももももものうち。", 
         Mode:"normal",
     }
 
+    // JSONに変換
     jsonValue, _ := json.Marshal(reqBody)
 
   
