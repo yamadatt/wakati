@@ -25,6 +25,8 @@ func main() {
 
   
     req, _ := http.NewRequest(http.MethodPost, url, bytes.NewBuffer([]byte(jsonValue)))
+    
+    // ヘッダーをセット
     req.Header.Set("Content-type","application/json;charset=UTF-8")
  
     client := new(http.Client)
@@ -53,10 +55,15 @@ func main() {
     body, _ := ioutil.ReadAll(resp.Body)
 
     // JSONを構造体にエンコード
-    var Books TokenizedMessages
-    json.Unmarshal(body, &Books)
+    var messages TokenizedMessages
+    
 
-    fmt.Printf("%-v", Books)
+    if err := json.Unmarshal(body, &messages); err != nil {
+        fmt.Println("Error Unmarshal:", err)
+    }
+
+    fmt.Printf("%+v\n", messages)
+
 
 }
 
