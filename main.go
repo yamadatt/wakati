@@ -1,73 +1,68 @@
 package main
 
 import (
-    "encoding/json"
-    "fmt"
-    "io/ioutil"
-    "net/http"
-    "bytes"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
-
 func main() {
-    fmt.Println("Start!")
+	fmt.Println("Start!")
 
-    url := "http://localhost:8888/tokenize"
- 
-    // 固定の文字列を入れる（動く用に）
-    reqBody := RequestBody{
-        Sentence:"すもももももももものうち。", 
-        Mode:"normal",
-    }
+	url := "http://localhost:8888/tokenize"
 
-    // JSONに変換
-    jsonValue, _ := json.Marshal(reqBody)
+	// 固定の文字列を入れる（動く用に）
+	reqBody := RequestBody{
+		Sentence: "すもももももももものうち。",
+		Mode:     "normal",
+	}
 
-  
-    req, _ := http.NewRequest(http.MethodPost, url, bytes.NewBuffer([]byte(jsonValue)))
-    
-    // ヘッダーをセット
-    req.Header.Set("Content-type","application/json;charset=UTF-8")
- 
-    client := new(http.Client)
-    resp, err := client.Do(req)
+	// JSONに変換
+	jsonValue, _ := json.Marshal(reqBody)
 
-    // URLがnilだったり、Timeoutが発生した場合にエラーを返す模様。
-    // サーバーからのレスポンスとなる 401 Unauthroized Error などはResponseをチェックする。
-    // サーバーとの疎通が開始する前の動作のよう。
-    if err != nil {
-        fmt.Println("Error Request:", err)
-        return
-    }
-    // resp.Bodyはクローズすること。クローズしないとTCPコネクションを開きっぱなしになる。
-    defer resp.Body.Close()
+	req, _ := http.NewRequest(http.MethodPost, url, bytes.NewBuffer([]byte(jsonValue)))
 
-    // 200 OK 以外の場合はエラーメッセージを表示して終了
-    if resp.StatusCode != 200 {
-        fmt.Println("Error Response:", resp.Status)
-        return
-    }
+	// ヘッダーをセット
+	req.Header.Set("Content-type", "application/json;charset=UTF-8")
 
-    // とりあえずResponsの構造体を全部出力
-    fmt.Printf("%-v", resp)
+	client := new(http.Client)
+	resp, err := client.Do(req)
 
-    // Response Body を読み取り
-    body, _ := ioutil.ReadAll(resp.Body)
+	// URLがnilだったり、Timeoutが発生した場合にエラーを返す模様。
+	// サーバーからのレスポンスとなる 401 Unauthroized Error などはResponseをチェックする。
+	// サーバーとの疎通が開始する前の動作のよう。
+	if err != nil {
+		fmt.Println("Error Request:", err)
+		return
+	}
+	// resp.Bodyはクローズすること。クローズしないとTCPコネクションを開きっぱなしになる。
+	defer resp.Body.Close()
 
-    // JSONを構造体にエンコード
-    var messages TokenizedMessages
-    
+	// 200 OK 以外の場合はエラーメッセージを表示して終了
+	if resp.StatusCode != 200 {
+		fmt.Println("Error Response:", resp.Status)
+		return
+	}
 
-    if err := json.Unmarshal(body, &messages); err != nil {
-        fmt.Println("Error Unmarshal:", err)
-    }
+	// とりあえずResponsの構造体を全部出力
+	fmt.Printf("%-v", resp)
 
-    fmt.Printf("%+v\n", messages)
+	// Response Body を読み取り
+	body, _ := ioutil.ReadAll(resp.Body)
 
+	// JSONを構造体にエンコード
+	var messages TokenizedMessages
+
+	if err := json.Unmarshal(body, &messages); err != nil {
+		fmt.Println("Error Unmarshal:", err)
+	}
+
+	//fmt.Printf("%+v\n", messages)
+	fmt.Printf("%+v\n", messages.Tokens[0].Surface)
 
 }
-
-
 
 type TokenizedMessages struct {
 	Status bool `json:"status"`
@@ -85,7 +80,6 @@ type TokenizedMessages struct {
 	} `json:"tokens"`
 }
 type RequestBody struct {
-    Sentence string `json:"sentence"`
-    Mode string `json:"mode"`
-
+	Sentence string `json:"sentence"`
+	Mode     string `json:"mode"`
 }
