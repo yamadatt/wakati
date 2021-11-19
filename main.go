@@ -47,7 +47,7 @@ func main() {
 	}
 
 	// とりあえずResponsの構造体を全部出力
-	fmt.Printf("%-v", resp)
+	//fmt.Printf("%-v", resp)
 
 	// Response Body を読み取り
 	body, _ := ioutil.ReadAll(resp.Body)
@@ -60,7 +60,12 @@ func main() {
 	}
 
 	//fmt.Printf("%+v\n", messages)
-	fmt.Printf("%+v\n", messages.Tokens[0].Surface)
+	fmt.Printf("%s\n", messages.Tokens[0].Surface)
+	fmt.Printf("%s\n", messages.Tokens[1].Surface)
+	fmt.Printf("%s\n", messages.Tokens[2].Surface)
+
+	fmt.Printf("%s\n", messages.Tokens[3].Surface)
+	fmt.Printf("%s\n", messages.Tokens[4].Surface)
 
 }
 
