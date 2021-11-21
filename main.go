@@ -59,14 +59,12 @@ func main() {
 		fmt.Println("Error Unmarshal:", err)
 	}
 
-	//fmt.Printf("%+v\n", messages)
-	fmt.Printf("%s\n", messages.Tokens[0].Surface)
-	fmt.Printf("%s\n", messages.Tokens[1].Surface)
-	fmt.Printf("%s\n", messages.Tokens[2].Surface)
+	fmt.Printf("%+v\n", messages)
 
-	fmt.Printf("%s\n", messages.Tokens[3].Surface)
-	fmt.Printf("%s\n", messages.Tokens[4].Surface)
-
+    for _, v := range messages.Tokens {
+        println(v.Surface)
+        fmt.Printf("%+v\n", v. Pos)
+    }
 }
 
 type TokenizedMessages struct {
