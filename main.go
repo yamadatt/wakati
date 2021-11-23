@@ -9,13 +9,16 @@ import (
 )
 
 func main() {
-	fmt.Println("Start!")
+
 
 	url := "http://localhost:8888/tokenize"
 
-	// 固定の文字列を入れる（動く用に）
+	// 分かち書きする文字列をファイルから読み込ませる
+
+	targettext := FileRead("sample.txt")
+
 	reqBody := RequestBody{
-		Sentence: "すもももももももものうち。",
+		Sentence: targettext,
 		Mode:     "normal",
 	}
 
@@ -59,12 +62,24 @@ func main() {
 		fmt.Println("Error Unmarshal:", err)
 	}
 
-	fmt.Printf("%+v\n", messages)
+	//fmt.Printf("%+v\n", messages)
 
-    for _, v := range messages.Tokens {
-        println(v.Surface)
-        fmt.Printf("%+v\n", v. Pos)
-    }
+	for _, v := range messages.Tokens {
+
+		fmt.Printf("%s %+v\n", v.Surface, v.Pos)
+
+	}
+
+}
+
+func FileRead(fileName string) (str string) {
+	bytes, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		panic(err)
+	}
+
+	str = (string(bytes))
+	return str
 }
 
 type TokenizedMessages struct {
