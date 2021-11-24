@@ -16,6 +16,8 @@ func main() {
 	// 分かち書きする文字列をファイルから読み込ませる
 
 	targettext := FileRead("sample.txt")
+//    targettext := FileRead("session0716.txt")
+
 
 	reqBody := RequestBody{
 		Sentence: targettext,
@@ -62,12 +64,26 @@ func main() {
 		fmt.Println("Error Unmarshal:", err)
 	}
 
+
+    //デバッグ用に受け取ったメッセージを全て出力
 	//fmt.Printf("%+v\n", messages)
 
 	for _, v := range messages.Tokens {
 
-		fmt.Printf("%s %+v\n", v.Surface, v.Pos)
+		fmt.Printf("%s", v.Surface)
+    //    fmt.Printf("%+v", v.Pos)
+		
+        if v.Pos[1] == "接続助詞" {
 
+            println("、")
+        }
+
+
+        if v.Pos[1] == "終助詞" {
+
+            println("。")
+        }
+        
 	}
 
 }
