@@ -23,3 +23,6 @@ curl -s -X PUT localhost:8888/tokenize -d'{"sentence":"すももももももも�
 [Docker で日本語形態素解析を Kagome の Web API で手軽に利用する（分かち書き解析） \- Qiita](https://qiita.com/KEINOS/items/8b5e3a251430db89de3f)
 
 
+上記の動作確認が終わったら、```main.go```を動かす。
+
+
