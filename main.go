@@ -16,7 +16,7 @@ func main() {
 	// 分かち書きする文字列をファイルから読み込ませる
 
 	targettext := FileRead("sample.txt")
-//    targettext := FileRead("session0716.txt")
+//    targettext := FileRead("session.txt")
 
 
 	reqBody := RequestBody{
